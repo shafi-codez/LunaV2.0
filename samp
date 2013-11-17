@@ -1,0 +1,31 @@
+Hi,
+I think it is a stupid problem. But I do not know how it can be cracked:
+I want need the user to be able to download a file that is stored somewhere in the server.
+I found some solutions like:
+http://wiki.apache.org/myfaces/Sending_Files
+If I integrate this code in my action or actionListener method it does not works.
+The reason is that the result for the response
+fdfhfgdfg
+cgghfdg
+fhsfd
+fdgsfd
+fgsh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fdgsdf
