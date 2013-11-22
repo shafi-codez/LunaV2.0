@@ -1,6 +1,5 @@
 package com.iit.aws;
 
-
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
@@ -13,7 +12,14 @@ import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.sqs.AmazonSQS;
+import com.amazonaws.services.sqs.AmazonSQSClient;
+import com.amazonaws.services.sqs.model.Message;
+import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
+import com.amazonaws.services.sqs.model.SendMessageRequest;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class awsInit {
 
@@ -22,7 +28,9 @@ public class awsInit {
     public static AmazonS3 s3;
 
     public static void main(String s[]) {
-        listObjs();
+        //listObjs();
+        awsSqs();
+        
     }
 
     public static TransferManager initS3() {
@@ -61,12 +69,37 @@ public class awsInit {
                 System.out.println(">> " + key);
                 if (key.endsWith("mp4")) {
                     //https://s3-us-west-2.amazonaws.com/itm455/ELB_09_25_2013.mp4
-                    String pubLink = "https://s3-us-west-2.amazonaws.com/"+bucket.getName()+"/"+key;
+                    String pubLink = "https://s3-us-west-2.amazonaws.com/" + bucket.getName() + "/" + key;
                     url.add(pubLink);
                 }
             }
             System.out.println();
         }
         return url;
+    }
+
+    public static void awsSqs() {
+        AmazonSQS sqs = new AmazonSQSClient(new ClasspathPropertiesFileCredentialsProvider());
+        String qUrl = "https://sqs.us-east-1.amazonaws.com/943227140367/requests";
+        //sqs.sendMessage(new SendMessageRequest(qUrl, "This is my message text."));
+
+        System.out.println("Receiving messages from MyQueue.\n");
+        ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(qUrl);
+        List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
+        
+        for (Message message : messages) {
+            System.out.println("  Message");
+            System.out.println("    MessageId:     " + message.getMessageId());
+            System.out.println("    ReceiptHandle: " + message.getReceiptHandle());
+            System.out.println("    MD5OfBody:     " + message.getMD5OfBody());
+            System.out.println("    Body:          " + message.getBody());
+            for (Entry<String, String> entry : message.getAttributes().entrySet()) {
+                System.out.println("  Attribute");
+                System.out.println("    Name:  " + entry.getKey());
+                System.out.println("    Value: " + entry.getValue());
+            }
+            //sqs.deleteMessage();
+        }
+        System.out.println();
     }
 }

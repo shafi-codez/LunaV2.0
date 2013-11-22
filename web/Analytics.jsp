@@ -7,8 +7,6 @@
         <meta name="keywords" content="Scalable, Video, Rendering, application" />
         <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
         <link rel="stylesheet" type="text/css" href="style/style.css" />
-        <script type="text/javascript" src="/path/to/jquery-latest.js"></script> 
-        <script type="text/javascript" src="/path/to/jquery.tablesorter.js"></script> 
     </head>
 
     <body>
@@ -76,50 +74,11 @@
                 </div>
                 <div id="content">
                     <h2>Data Interpretation</h2>
-                    <p><a href="population.html">Bar Charts</a><p>
-                    <p><a href="tree.html">Tree Charts</a><p>
-                    <p><a href="hierarchical-bar.html">Vertical Bars</a><p>
-                    <table id="myTable" class="tablesorter"> 
-                        <thead> 
-                            <tr> 
-                                <th>Last Name</th> 
-                                <th>First Name</th> 
-                                <th>Email</th> 
-                                <th>Due</th> 
-                                <th>Web Site</th> 
-                            </tr> 
-                        </thead> 
-                        <tbody> 
-                            <tr> 
-                                <td>Smith</td> 
-                                <td>John</td> 
-                                <td>jsmith@gmail.com</td> 
-                                <td>$50.00</td> 
-                                <td>http://www.jsmith.com</td> 
-                            </tr> 
-                            <tr> 
-                                <td>Bach</td> 
-                                <td>Frank</td> 
-                                <td>fbach@yahoo.com</td> 
-                                <td>$50.00</td> 
-                                <td>http://www.frank.com</td> 
-                            </tr> 
-                            <tr> 
-                                <td>Doe</td> 
-                                <td>Jason</td> 
-                                <td>jdoe@hotmail.com</td> 
-                                <td>$100.00</td> 
-                                <td>http://www.jdoe.com</td> 
-                            </tr> 
-                            <tr> 
-                                <td>Conway</td> 
-                                <td>Tim</td> 
-                                <td>tconway@earthlink.net</td> 
-                                <td>$50.00</td> 
-                                <td>http://www.timconway.com</td> 
-                            </tr> 
-                        </tbody> 
-                    </table>     
+                    <p><a href="data/population.html">Bar Charts</a><p>
+                    <p><a href="data/tree.html">Tree Charts</a><p>
+                    <p><a href="data/hierarchical-bar.html">Vertical Bars</a><p>
+                    <h2>Course Information</h2>
+                        <iframe src="jobList.jsp" name="JQuery Slide Show Effects" height="400" width="800"></iframe> 
                 </div>
             </div>
             <div id="content_footer"></div>

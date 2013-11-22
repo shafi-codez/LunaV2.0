@@ -3,7 +3,7 @@
         <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
         <li class="selected"><a href="index.jsp">Home</a></li>
         <li><a href="listVid.jsp">Videos</a></li>
-        <li><a href="">Jobs List</a></li>
+        <li><a href="jobList.jsp">Jobs List</a></li>
         <li><a href="Analytics.jsp">Analytics</a></li>
         <li><a href="">Contact Us</a></li>
     </ul>

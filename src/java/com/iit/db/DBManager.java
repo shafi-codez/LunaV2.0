@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.iit.core.jobInfo;
 import java.util.HashMap;
 
 /**
@@ -26,7 +27,8 @@ public class DBManager {
     private static Connection conn;
 
     public static void main(String[] s) {
-        getResult();
+        //getResult();
+        //updateJobInfo(null);
     }
 
     public DBManager() {
@@ -66,6 +68,24 @@ public class DBManager {
             return null;
         }
     }
+    
+    public static void updateJobInfo(jobInfo jinfo) {
+        try {
+            Connection con = DBManager.getConn();
+            ResultSet rs = null;
+            Statement st = con.createStatement();
+            String qr = "INSERT INTO REQUEST VALUES (null,'"+jinfo.getFname()+"',STR_TO_DATE('11/16/2013 19:37','%m/%d/%Y %H:%i'),'"+jinfo.getBkt_name()+
+                    "','"+jinfo.getS3key()+"','"+jinfo.getStatus()+"')";
+            System.out.println("Job Info Query is "+qr);
+            
+            st.execute(qr);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            
+        }
+    }
+    
 
     public void startConnection() throws SQLException {
         //this.connection = DriverManager.getConnection(getUrl(), getUsername(), getPassword());

@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
+import com.iit.core.jobInfo;
+import com.iit.db.DBManager;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -34,7 +36,7 @@ import com.iit.util.Utility;
  * @author shafi
  */
 public class UploadManager extends HttpServlet {
-
+    
     private Upload upload;
 
     /**
@@ -52,61 +54,75 @@ public class UploadManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-
+            
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
             FileItemFactory factory = new DiskFileItemFactory();
             ServletFileUpload uploader = new ServletFileUpload(factory);
             uploader.setSizeMax(500000000);
-
+            
             List items = null;
             items = uploader.parseRequest(request);
             Iterator itr = items.iterator();
             TransferManager tx = awsInit.initS3();
             String bucketName = null;
-            
+
             //AccessControlList acl = new AccessControlList();
             //acl.grantAllPermissions(GroupGrantee.AllUsers, Permission.Read);
+            jobInfo jbI = new jobInfo();
             
             while (itr.hasNext()) {
-                FileItem item = (FileItem) itr.next();      
-                String fDate = "09/25/2013";
+                FileItem item = (FileItem) itr.next();                
+                String fDate = "11/21/2013";
+                String formDt = "11/21/2013";
                 if (item.isFormField()) {
                     System.out.println("FieldName : " + item.getFieldName() + "  FieldValue : " + item.getString());
                     if (item.getFieldName().equalsIgnoreCase("cname")) {
                         bucketName = item.getString().toLowerCase();
                         awsInit.createS3Bucket(bucketName);
                     }
-                    if (item.getFieldName().equals("dt")) {
+                    if (item.getFieldName().trim().equals("dt")) {
+                        formDt = item.getString();
                         fDate = item.getString().replace("/", "_");
                         System.out.println("File date : " + fDate);
                     }
                 }
-                System.out.println("Constants.tmpDir  is : " + Constants.tmpDir );
+                System.out.println("Constants.tmpDir  is : " + Constants.tmpDir);
                 System.out.println("item.getName() is : " + item.getName());
                 if (item.getName() != null) {
                     System.out.println("File MetaData is : " + item.toString());
                     System.out.println("File Name is : " + item.getName());
+                   
                     File savedFile = new File(Constants.tmpDir + item.getName());
                     item.write(savedFile);
-                    
+
                     // File Naming convention needed
                     String objName = Utility.getStdName(item.getName(), fDate);
                     System.out.println("File name >>" + item.getName());
                     System.out.println("Obj File name >>" + objName);
-
+                    
+                    jbI.setFname(item.getName());
+                    jbI.setUpld_date(fDate);
+                    jbI.setBkt_name(bucketName);
+                    jbI.setS3key(objName);
+                    jbI.setStatus("TRANSFERRING");
+                    
                     PutObjectRequest reqObj = new PutObjectRequest(bucketName, objName, savedFile);
                     reqObj.setCannedAcl(CannedAccessControlList.PublicRead);
-                    upload = tx.upload(reqObj);
+                    /*
+                     upload = tx.upload(reqObj);
                                 
-                    // You can poll your transfer's status to check its progress
-                   while (upload.isDone() == false) {
-                       Thread.sleep(3000);
-                        System.out.println(" Transfer: " + upload.getDescription());
-                        System.out.println("  - State: " + upload.getState());
-                        System.out.println("  - Progress: " + upload.getProgress().getBytesTransferred());
-                    }
-
-
+                     // You can poll your transfer's status to check its progress
+                     while (upload.isDone() == false) {
+                     Thread.sleep(3000);
+                     System.out.println(" Transfer: " + upload.getDescription());
+                     System.out.println("  - State: " + upload.getState());
+                     System.out.println("  - Progress: " + upload.getProgress().getBytesTransferred());
+                     }
+                     */
+                    jbI.setStatus("TRANSFERED");
+                    
+                    DBManager.updateJobInfo(jbI);
+                    
                 }
             }
             out.print("<b>File Upload Successfull !!");

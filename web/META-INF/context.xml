@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/LunaV2.0"/>
+<Context antiJARLocking="true" path="/LunaV2.0">
+<Resource name="jdbc/itm411db" auth="Container" type="javax.sql.DataSource"
+               maxActive="100" maxIdle="30" maxWait="10000"
+               username="itm411db" password="itm411db" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://localhost:3306/itm411db"/>
+</Context>

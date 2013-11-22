@@ -7,7 +7,6 @@ html
 
 body
 { font: normal .80em 'trebuchet ms', arial, sans-serif;
-  background: #F5F5EE;
   color: #555;}
 
 p
@@ -177,7 +176,7 @@ ul#menu li a:hover
 { color: #E4EC04;}
 
 #site_content
-{ width: 880px;
+{ width: 90%;
   overflow: hidden;
   margin: 20px auto 0 auto;
   padding: 0 0 10px 0;} 

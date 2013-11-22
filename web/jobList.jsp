@@ -28,7 +28,7 @@
                     Connection con = DBManager.getConn();
                     ResultSet rs = null;
                     Statement st = con.createStatement();
-                    String qr = "SELECT * FROM CUSTOMERS";
+                    String qr = "SELECT * FROM COURSE";
                     rs = st.executeQuery(qr);
                     while (rs.next()) {
                         //Thread.sleep(3000);
@@ -55,9 +55,9 @@
                 <img src="images/last.png" class="last"/>
                 <select class="pagesize">
                     <option value="">LIMIT</option>
-                    <option value="2">2 per page</option>
-                    <option value="5">5 per page</option>
                     <option value="10">10 per page</option>
+                    <option value="20">20 per page</option>
+                    <option value="30">30 per page</option>
                 </select>
             </form>
         </div>
